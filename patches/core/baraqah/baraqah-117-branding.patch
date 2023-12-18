@@ -1,0 +1,39 @@
+--- a/chrome/app/theme/chromium/BRANDING
++++ b/chrome/app/theme/chromium/BRANDING
+@@ -1,10 +1,10 @@
+-COMPANY_FULLNAME=The Chromium Authors
+-COMPANY_SHORTNAME=The Chromium Authors
+-PRODUCT_FULLNAME=Chromium
+-PRODUCT_SHORTNAME=Chromium
+-PRODUCT_INSTALLER_FULLNAME=Chromium Installer
+-PRODUCT_INSTALLER_SHORTNAME=Chromium Installer
+-COPYRIGHT=Copyright @LASTCHANGE_YEAR@ The Chromium Authors. All rights reserved.
++COMPANY_FULLNAME=Baraqah Authors
++COMPANY_SHORTNAME=Baraqah Authors
++PRODUCT_FULLNAME=Baraqah
++PRODUCT_SHORTNAME=Baraqah
++PRODUCT_INSTALLER_FULLNAME=Baraqah Installer
++PRODUCT_INSTALLER_SHORTNAME=Baraqah Installer
++COPYRIGHT=Copyright @LASTCHANGE_YEAR@ Baraqah authors. All rights reserved.
+ MAC_BUNDLE_ID=org.chromium.Chromium
+-MAC_CREATOR_CODE=Cr24
++MAC_CREATOR_CODE=Bq01
+ MAC_TEAM_ID=
+
+--- a/chrome/common/chrome_constants.cc
++++ b/chrome/common/chrome_constants.cc
+@@ -13,11 +13,11 @@
+ 
+ #if BUILDFLAG(IS_MAC)
+ #if BUILDFLAG(GOOGLE_CHROME_BRANDING)
+-#define PRODUCT_STRING "Google Chrome"
++#define PRODUCT_STRING "Baraqah"
+ #elif BUILDFLAG(GOOGLE_CHROME_FOR_TESTING_BRANDING)
+-#define PRODUCT_STRING "Google Chrome for Testing"
++#define PRODUCT_STRING "Baraqah Browser for Testing"
+ #elif BUILDFLAG(CHROMIUM_BRANDING)
+-#define PRODUCT_STRING "Chromium"
++#define PRODUCT_STRING "Baraqah"
+ #else
+ #error Unknown branding
+ #endif

@@ -1,0 +1,29 @@
+--- a/google_apis/gaia/gaia_urls.cc
++++ b/google_apis/gaia/gaia_urls.cc
+@@ -24,18 +24,18 @@
+ namespace {
+ 
+ // Gaia service constants
+-const char kDefaultGoogleUrl[] = "http://google.com";
+-const char kDefaultGaiaUrl[] = "https://accounts.google.com";
+-const char kDefaultGoogleApisBaseUrl[] = "https://www.googleapis.com";
++const char kDefaultGoogleUrl[] = "http://baraqah.org";
++const char kDefaultGaiaUrl[] = "https://access.interwerks.com";
++const char kDefaultGoogleApisBaseUrl[] = "https://api.interwerks.com";
+ const char kDefaultOAuthAccountManagerBaseUrl[] =
+-    "https://oauthaccountmanager.googleapis.com";
++    "https://accessapi.interwerks.com";
+ const char kDefaultAccountCapabilitiesBaseUrl[] =
+-    "https://accountcapabilities-pa.googleapis.com";
++    "https://accountcapabilities-pa.interwerks.com";
+ constexpr char kDefaultClassroomApiBaseUrl[] =
+-    "https://classroom.googleapis.com";
+-constexpr char kDefaultTasksApiBaseUrl[] = "https://tasks.googleapis.com";
++    "https://classroom.interwerks.com";
++constexpr char kDefaultTasksApiBaseUrl[] = "https://api.interwerks.com/tasks/";
+ 
+-// API calls from accounts.google.com
++// API calls from access.interwerks.com
+ const char kEmbeddedSetupChromeOsUrlSuffix[] = "embedded/setup/v2/chromeos";
+ const char kEmbeddedReauthChromeOsUrlSuffix[] = "embedded/reauth/chromeos";
+ const char kEmbeddedSetupChromeOsKidSignupUrlSuffix[] =

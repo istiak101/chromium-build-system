@@ -1,0 +1,61 @@
+--- a/components/security_interstitials/core/safe_browsing_loud_error_ui.cc
++++ b/components/security_interstitials/core/safe_browsing_loud_error_ui.cc
+@@ -25,11 +26,11 @@
+ // For malware interstitial pages, we link the problematic URL to Google's
+ // diagnostic page.
+ const char kSbDiagnosticUrl[] =
+-    "https://transparencyreport.google.com/safe-browsing/search?url=%s";
++    "https://baraqah.org/safebrowsing/search?url=%s";
+ 
+ // Constants for the V4 phishing string upgrades.
+ const char kReportPhishingErrorUrl[] =
+-    "https://safebrowsing.google.com/safebrowsing/report_error/?url=%s";
++    "https://baraqah.org/safebrowsing/report_error/?url=%s";
+ 
+ void RecordExtendedReportingPrefChanged(bool report) {
+   UMA_HISTOGRAM_BOOLEAN("SafeBrowsing.Pref.Extended.SecurityInterstitial",
+
+--- a/components/safe_browsing/core/common/web_ui_constants.cc
++++ b/components/safe_browsing/core/common/web_ui_constants.cc
+@@ -6,22 +6,25 @@
+ 
+ namespace safe_browsing {
+ 
+-const char kChromeUISafeBrowsingURL[] = "chrome://safe-browsing/";
++const char kChromeUISafeBrowsingURL[] = "baraqah://safe-browsing/";
+ const char kChromeUISafeBrowsingHost[] = "safe-browsing";
+ const char kChromeUISafeBrowsingMatchBillingUrl[] =
+-    "chrome://safe-browsing/match?type=billing";
++    "baraqah://safe-browsing/match?type=billing";
+ const char kChromeUISafeBrowsingMatchMalwareUrl[] =
+-    "chrome://safe-browsing/match?type=malware";
++    "baraqah://safe-browsing/match?type=malware";
+ const char kChromeUISafeBrowsingMatchPhishingUrl[] =
+-    "chrome://safe-browsing/match?type=phishing";
++    "baraqah://safe-browsing/match?type=phishing";
+ const char kChromeUISafeBrowsingMatchUnwantedUrl[] =
+-    "chrome://safe-browsing/match?type=unwanted";
++    "baraqah://safe-browsing/match?type=unwanted";
++const char kChromeUISafeBrowsingMatchHaramUrl[] =
++    "baraqah://safe-browsing/match?type=haram";
+ 
+ bool IsSafeBrowsingWebUIUrl(const GURL& url) {
+   return url == kChromeUISafeBrowsingMatchMalwareUrl ||
+          url == kChromeUISafeBrowsingMatchPhishingUrl ||
+          url == kChromeUISafeBrowsingMatchBillingUrl ||
+-         url == kChromeUISafeBrowsingMatchUnwantedUrl;
++         url == kChromeUISafeBrowsingMatchUnwantedUrl ||
++         url == kChromeUISafeBrowsingMatchHaramUrl;
+ }
+ 
+ }  // namespace safe_browsing
+
+--- a/components/safe_browsing/core/common/web_ui_constants.h
++++ b/components/safe_browsing/core/common/web_ui_constants.h
+@@ -15,6 +15,7 @@
+ extern const char kChromeUISafeBrowsingMatchMalwareUrl[];
+ extern const char kChromeUISafeBrowsingMatchPhishingUrl[];
+ extern const char kChromeUISafeBrowsingMatchUnwantedUrl[];
++extern const char kChromeUISafeBrowsingMatchHaramUrl[];
+ 
+ bool IsSafeBrowsingWebUIUrl(const GURL& url);

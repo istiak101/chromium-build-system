@@ -1,0 +1,64 @@
+--- a/tools/metrics/histograms/metadata/histogram_suffixes_list.xml
++++ b/tools/metrics/histograms/metadata/histogram_suffixes_list.xml
+
+@@ -1619,6 +1627,7 @@
+ 
+ <histogram_suffixes name="DohProviderId" separator="." ordering="prefix,4">
+   <suffix name="AlekBergNl" label="alekberg.net Amsterdam."/>
++  <suffix name="Baraqah" label="Baraqah DNS."/>
+   <suffix name="CleanBrowsingAdult" label="CleanBrowsing adult filter."/>
+   <suffix name="CleanBrowsingFamily" label="CleanBrowsing family filter."/>
+   <suffix name="CleanBrowsingSecure" label="CleanBrowsing secure filter."/>
+
+--- a/net/dns/public/doh_provider_entry.cc
++++ b/net/dns/public/doh_provider_entry.cc
+@@ -64,6 +64,18 @@
+           /*display_globally=*/false,
+           /*display_countries=*/{"NL"}, LoggingLevel::kNormal),
+       new DohProviderEntry(
++          "Baraqah",
++          MAKE_BASE_FEATURE_WITH_STATIC_STORAGE(
++              DohProviderBaraqah, base::FEATURE_ENABLED_BY_DEFAULT),
++          DohProviderIdForHistogram::kBaraqah,
++          {"108.166.207.7"},
++          /*dns_over_tls_hostnames=*/
++          {"dns.baraqah.org"},
++          "https://dns.baraqah.org/dns-query",
++          /*ui_name=*/"Baraqah DNS", /*privacy_policy=*/"https://baraqah.org/privacy",
++          /*display_globally=*/true, /*display_countries=*/{},
++          LoggingLevel::kNormal),
++      new DohProviderEntry(
+           "CleanBrowsingAdult",
+           MAKE_BASE_FEATURE_WITH_STATIC_STORAGE(
+               DohProviderCleanBrowsingAdult, base::FEATURE_ENABLED_BY_DEFAULT),
+
+--- a/net/dns/public/doh_provider_entry.h
++++ b/net/dns/public/doh_provider_entry.h
+@@ -33,7 +34,8 @@
+   kNextDns = 8,
+   kOpenDns = 9,
+   kAlekBergNl = 10,
+-  kMaxValue = kAlekBergNl,
++  kBaraqah = 11,
++  kMaxValue = kBaraqah,
+ };
+ 
+ // Represents insecure DNS, DoT, and DoH services run by the same provider.
+
+--- a/net/dns/dns_config.h
++++ b/net/dns/dns_config.h
+@@ -98,12 +98,12 @@
+   // overridden for individual requests (such as requests to resolve a DoH
+   // server hostname) using |HostResolver::ResolveHostParameters::
+   // secure_dns_mode_override|.
+-  SecureDnsMode secure_dns_mode = SecureDnsMode::kOff;
++  SecureDnsMode secure_dns_mode = SecureDnsMode::kAutomatic;
+ 
+   // If set to |true|, we will attempt to upgrade the user's DNS configuration
+   // to use DoH server(s) operated by the same provider(s) when the user is
+   // in AUTOMATIC mode and has not pre-specified DoH servers.
+-  bool allow_dns_over_https_upgrade = false;
++  bool allow_dns_over_https_upgrade = true;
+ };
+ 
+ }  // namespace net

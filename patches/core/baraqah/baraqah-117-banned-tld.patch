@@ -1,0 +1,465 @@
+--- a/net/base/registry_controlled_domains/effective_tld_names.dat
++++ b/net/base/registry_controlled_domains/effective_tld_names.dat
+@@ -247,7 +247,6 @@
+ wa.au
+ // 3LDs
+ act.edu.au
+-catholic.edu.au
+ // eq.edu.au - Removed at the request of the Queensland Department of Education
+ nsw.edu.au
+ nt.edu.au
+@@ -1269,7 +1268,6 @@
+ shop.ht
+ firm.ht
+ info.ht
+-adult.ht
+ net.ht
+ pro.ht
+ org.ht
+@@ -1295,10 +1293,7 @@
+ 2000.hu
+ agrar.hu
+ bolt.hu
+-casino.hu
+ city.hu
+-erotica.hu
+-erotika.hu
+ film.hu
+ forum.hu
+ games.hu
+@@ -1310,10 +1305,8 @@
+ media.hu
+ news.hu
+ reklam.hu
+-sex.hu
+ shop.hu
+ suli.hu
+-szex.hu
+ tozsde.hu
+ utazas.hu
+ video.hu
+@@ -4339,8 +4332,6 @@
+ jefferson.museum
+ jerusalem.museum
+ jewelry.museum
+-jewish.museum
+-jewishart.museum
+ jfk.museum
+ journalism.museum
+ judaica.museum
+@@ -5685,7 +5676,6 @@
+ priv.pl
+ realestate.pl
+ rel.pl
+-sex.pl
+ shop.pl
+ sklep.pl
+ sos.pl
+@@ -7134,9 +7124,6 @@
+ // xn--mgb2ddes ("AlYemen", Arabic) : YE
+ اليمن
+ 
+-// xxx : http://icmregistry.com
+-xxx
+-
+ // ye : http://www.y.net.ye/services/domain_name.htm
+ ye
+ com.ye
+@@ -7246,9 +7233,6 @@
+ // ads : 2014-12-04 Charleston Road Registry Inc.
+ ads
+ 
+-// adult : 2014-10-16 ICM Registry AD LLC
+-adult
+-
+ // aeg : 2015-03-19 Aktiebolaget Electrolux
+ aeg
+ 
+@@ -7432,15 +7416,9 @@
+ // bananarepublic : 2015-07-31 The Gap, Inc.
+ bananarepublic
+ 
+-// band : 2014-06-12 Dog Beach, LLC
+-band
+-
+ // bank : 2014-09-25 fTLD Registry Services LLC
+ bank
+ 
+-// bar : 2013-12-12 Punto 2012 Sociedad Anonima Promotora de Inversion de Capital Variable
+-bar
+-
+ // barcelona : 2014-07-24 Municipi de Barcelona
+ barcelona
+ 
+@@ -7489,9 +7467,6 @@
+ // beauty : 2015-12-03 XYZ.COM LLC
+ beauty
+ 
+-// beer : 2014-01-09 Registry Services, LLC
+-beer
+-
+ // bentley : 2014-12-18 Bentley Motors Limited
+ bentley
+ 
+@@ -7504,9 +7479,6 @@
+ // bestbuy : 2015-07-31 BBY Solutions, Inc.
+ bestbuy
+ 
+-// bet : 2015-05-07 Identity Digital Limited
+-bet
+-
+ // bharti : 2014-01-09 Bharti Enterprises (Holding) Private Limited
+ bharti
+ 
+@@ -7522,9 +7494,6 @@
+ // bing : 2014-12-18 Microsoft Corporation
+ bing
+ 
+-// bingo : 2014-12-04 Binky Moon, LLC
+-bingo
+-
+ // bio : 2014-03-06 Identity Digital Limited
+ bio
+ 
+@@ -7699,21 +7668,12 @@
+ // cash : 2014-03-06 Binky Moon, LLC
+ cash
+ 
+-// casino : 2014-12-18 Binky Moon, LLC
+-casino
+-
+ // catering : 2013-12-05 Binky Moon, LLC
+ catering
+ 
+-// catholic : 2015-10-21 Pontificium Consilium de Comunicationibus Socialibus (PCCS) (Pontifical Council for Social Communication)
+-catholic
+-
+ // cba : 2014-06-26 COMMONWEALTH BANK OF AUSTRALIA
+ cba
+ 
+-// cbn : 2014-08-22 The Christian Broadcasting Network, Inc.
+-cbn
+-
+ // cbre : 2015-07-02 CBRE, Inc.
+ cbre
+ 
+@@ -7756,15 +7716,9 @@
+ // chintai : 2015-06-11 CHINTAI Corporation
+ chintai
+ 
+-// christmas : 2013-11-21 XYZ.COM LLC
+-christmas
+-
+ // chrome : 2014-07-24 Charleston Road Registry Inc.
+ chrome
+ 
+-// church : 2014-02-06 Binky Moon, LLC
+-church
+-
+ // cipriani : 2015-02-19 Hotel Cipriani Srl
+ cipriani
+ 
+@@ -8350,9 +8304,6 @@
+ // garden : 2014-06-26 Registry Services, LLC
+ garden
+ 
+-// gay : 2019-05-23 Top Level Design, LLC
+-gay
+-
+ // gbiz : 2014-07-17 Charleston Road Registry Inc.
+ gbiz
+ 
+@@ -8473,9 +8424,6 @@
+ // guide : 2013-09-13 Binky Moon, LLC
+ guide
+ 
+-// guitars : 2013-11-14 XYZ.COM LLC
+-guitars
+-
+ // guru : 2013-08-27 Binky Moon, LLC
+ guru
+ 
+@@ -8521,9 +8469,6 @@
+ // hgtv : 2015-07-02 Lifestyle Domain Holdings, Inc.
+ hgtv
+ 
+-// hiphop : 2014-03-06 Dot Hip Hop, LLC
+-hiphop
+-
+ // hisamitsu : 2015-07-16 Hisamitsu Pharmaceutical Co.,Inc.
+ hisamitsu
+ 
+@@ -8869,9 +8814,6 @@
+ // lexus : 2015-04-23 TOYOTA MOTOR CORPORATION
+ lexus
+ 
+-// lgbt : 2014-05-08 Identity Digital Limited
+-lgbt
+-
+ // lidl : 2014-09-18 Schwarz Domains und Services GmbH & Co. KG
+ lidl
+ 
+@@ -9121,9 +9063,6 @@
+ // mov : 2014-01-30 Charleston Road Registry Inc.
+ mov
+ 
+-// movie : 2015-02-05 Binky Moon, LLC
+-movie
+-
+ // msd : 2015-07-23 MSD Registry Holdings, Inc.
+ msd
+ 
+@@ -9133,9 +9072,6 @@
+ // mtr : 2015-03-12 MTR Corporation Limited
+ mtr
+ 
+-// music : 2021-05-04 DotMusic Limited
+-music
+-
+ // mutual : 2015-04-02 Northwestern Mutual MU TLD Registry, LLC
+ mutual
+ 
+@@ -9424,9 +9360,6 @@
+ // politie : 2015-08-20 Politie Nederland
+ politie
+ 
+-// porn : 2014-10-16 ICM Registry PN LLC
+-porn
+-
+ // pramerica : 2015-07-30 Prudential Financial, Inc.
+ pramerica
+ 
+@@ -9727,12 +9660,6 @@
+ // sew : 2014-07-17 SEW-EURODRIVE GmbH & Co KG
+ sew
+ 
+-// sex : 2014-11-13 ICM Registry SX LLC
+-sex
+-
+-// sexy : 2013-09-11 Internet Naming Company LLC
+-sexy
+-
+ // sfr : 2015-08-13 Societe Francaise du Radiotelephone - SFR
+ sfr
+ 
+@@ -10183,9 +10110,6 @@
+ // vlaanderen : 2014-02-06 DNS.be vzw
+ vlaanderen
+ 
+-// vodka : 2013-12-19 Registry Services, LLC
+-vodka
+-
+ // volkswagen : 2015-05-14 Volkswagen Group of America Inc.
+ volkswagen
+ 
+@@ -14156,7 +14080,6 @@
+ de.md
+ jp.md
+ to.md
+-indie.porn
+ vxl.sh
+ ch.tc
+ me.tc
+
+--- a/net/base/registry_controlled_domains/effective_tld_names.gperf
++++ b/net/base/registry_controlled_domains/effective_tld_names.gperf
+@@ -167,8 +167,6 @@
+ adobeio-static.net, 4
+ adobeioruntime.net, 4
+ ads, 0
+-adult, 0
+-adult.ht, 0
+ adv.br, 0
+ adv.mz, 0
+ advisor.ws, 6
+@@ -525,7 +523,6 @@
+ astronomy.museum, 0
+ asuke.aichi.jp, 0
+ at, 0
+-at-band-camp.net, 4
+ at.eu.org, 4
+ at.it, 0
+ at.md, 4
+@@ -642,12 +639,10 @@
+ bamble.no, 0
+ banamex, 0
+ bananarepublic, 0
+-band, 0
+ bandai.fukushima.jp, 0
+ bando.ibaraki.jp, 0
+ bank, 0
+ banzai.cloud, 6
+-bar, 0
+ bar.pro, 0
+ bar0.net, 4
+ bar1.net, 4
+@@ -733,7 +728,6 @@
+ bedzin.pl, 0
+ beeldengeluid.museum, 0
+ beep.pl, 4
+-beer, 0
+ beget.app, 6
+ beiarn.no, 0
+ bel.tr, 0
+@@ -756,7 +750,6 @@
+ beskidy.pl, 0
+ best, 0
+ bestbuy, 0
+-bet, 0
+ bet.ar, 0
+ beta.bounty-full.com, 4
+ beta.tailscale.net, 4
+@@ -792,7 +785,6 @@
+ bill.museum, 0
+ bindal.no, 0
+ bing, 0
+-bingo, 0
+ bio, 0
+ bio.br, 0
+ bip.sh, 4
+@@ -1147,8 +1139,6 @@
+ case, 0
+ caserta.it, 0
+ cash, 0
+-casino, 0
+-casino.hu, 0
+ castle.museum, 0
+ castres.museum, 0
+ cat, 0
+@@ -1158,8 +1148,6 @@
+ catering, 0
+ catering.aero, 0
+ catfood.jp, 4
+-catholic, 0
+-catholic.edu.au, 0
+ caxias.br, 0
+ cb.it, 0
+ cba, 0
+@@ -1329,7 +1317,6 @@
+ chuo.osaka.jp, 0
+ chuo.tokyo.jp, 0
+ chuo.yamanashi.jp, 0
+-church, 0
+ ci, 0
+ ci.it, 0
+ ciao.jp, 4
+@@ -2354,8 +2341,6 @@
+ ericsson, 0
+ erimo.hokkaido.jp, 0
+ erni, 0
+-erotica.hu, 0
+-erotika.hu, 0
+ es, 0
+ es-1.axarnet.cloud, 4
+ es.ax, 4
+@@ -2835,7 +2820,6 @@
+ gateway.museum, 0
+ gaular.no, 0
+ gausdal.no, 0
+-gay, 0
+ gb, 0
+ gb.net, 4
+ gbiz, 0
+@@ -3218,7 +3202,6 @@
+ guernsey.museum, 0
+ guge, 0
+ guide, 0
+-guitars, 0
+ gujarat.in, 0
+ gujo.gifu.jp, 0
+ gulen.no, 0
+@@ -3408,7 +3391,6 @@
+ hinode.tokyo.jp, 0
+ hinohara.tokyo.jp, 0
+ hioki.kagoshima.jp, 0
+-hiphop, 0
+ hippy.jp, 4
+ hirado.nagasaki.jp, 0
+ hiraizumi.iwate.jp, 0
+@@ -3712,7 +3694,6 @@
+ indiana.museum, 0
+ indianapolis.museum, 0
+ indianmarket.museum, 0
+-indie.porn, 4
+ indigena.bo, 0
+ industria.bo, 0
+ industries, 0
+@@ -3851,7 +3832,6 @@
+ is-a-libertarian.com, 4
+ is-a-linux-user.org, 4
+ is-a-llama.com, 4
+-is-a-musician.com, 4
+ is-a-nascarfan.com, 4
+ is-a-nurse.com, 4
+ is-a-painter.com, 4
+@@ -4666,7 +4646,6 @@
+ lezajsk.pl, 0
+ lg.jp, 0
+ lg.ua, 0
+-lgbt, 0
+ li, 0
+ li.it, 0
+ lib.ak.us, 0
+@@ -5357,7 +5336,6 @@
+ motosu.gifu.jp, 0
+ motoyama.kochi.jp, 0
+ mov, 0
+-movie, 0
+ movimiento.bo, 0
+ mozilla-iot.org, 4
+ mp, 0
+@@ -5415,11 +5393,8 @@
+ museum.tt, 0
+ museumcenter.museum, 0
+ museumvereniging.museum, 0
+-music, 0
+-music.museum, 0
+ musica.ar, 0
+ musica.bo, 0
+-musician.io, 4
+ mutsu.aomori.jp, 0
+ mutsuzawa.chiba.jp, 0
+ mutual, 0
+@@ -6691,7 +6666,6 @@
+ poniatowa.pl, 4
+ ponpes.id, 0
+ pordenone.it, 0
+-porn, 0
+ porsanger.no, 0
+ porsangu.no, 0
+ porsgrunn.no, 0
+@@ -7429,10 +7403,6 @@
+ sevastopol.ua, 0
+ seven, 0
+ sew, 0
+-sex, 0
+-sex.hu, 0
+-sex.pl, 0
+-sexy, 0
+ sf.no, 0
+ sfr, 0
+ sg, 0
+@@ -8002,7 +7972,6 @@
+ tateyama.toyama.jp, 0
+ tatsuno.hyogo.jp, 0
+ tatsuno.nagano.jp, 0
+-tattoo, 0
+ tawaramoto.nara.jp, 0
+ tax, 0
+ taxi, 0
+@@ -8710,7 +8679,6 @@
+ vn, 0
+ vn.ua, 0
+ voagat.no, 0
+-vodka, 0
+ volda.no, 0
+ volkenkunde.museum, 0
+ volkswagen, 0
+@@ -9407,7 +9375,6 @@
+ xnbay.com, 4
+ xs4all.space, 4
+ xx.gl, 4
+-xxx, 0
+ xy.ax, 4
+ xyz, 0
+ xz.cn, 0

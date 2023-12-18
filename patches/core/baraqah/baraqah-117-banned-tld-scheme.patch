@@ -1,0 +1,264 @@
+--- a/chrome/browser/autocomplete/chrome_autocomplete_scheme_classifier.cc
++++ b/chrome/browser/autocomplete/chrome_autocomplete_scheme_classifier.cc
+@@ -58,6 +58,7 @@ ChromeAutocompleteSchemeClassifier::GetI
+   if (base::IsStringASCII(scheme) &&
+       (ProfileIOData::IsHandledProtocol(scheme) ||
+        base::EqualsCaseInsensitiveASCII(scheme, content::kViewSourceScheme) ||
++       base::EqualsCaseInsensitiveASCII(scheme, url::kHaramScheme) ||
+        base::EqualsCaseInsensitiveASCII(scheme, url::kJavaScriptScheme) ||
+        base::EqualsCaseInsensitiveASCII(scheme, url::kDataScheme))) {
+     return metrics::OmniboxInputType::URL;
+--- a/chrome/browser/history/history_utils.cc
++++ b/chrome/browser/history/history_utils.cc
+@@ -22,6 +22,7 @@ bool CanAddURLToHistory(const GURL& url)
+       url.SchemeIs(content::kChromeUIScheme) ||
+       url.SchemeIs(content::kChromeUIUntrustedScheme) ||
+       url.SchemeIs(content::kViewSourceScheme) ||
++      url.SchemeIs(url::kHaramScheme) ||
+       url.SchemeIs(chrome::kChromeNativeScheme) ||
+       url.SchemeIs(chrome::kChromeSearchScheme) ||
+       url.SchemeIs(dom_distiller::kDomDistillerScheme))
+--- a/chrome/browser/ui/singleton_tabs.cc
++++ b/chrome/browser/ui/singleton_tabs.cc
+@@ -123,7 +123,8 @@ int GetIndexOfExistingTab(Browser* brows
+     // RewriteURLIfNecessary removes the "view-source:" scheme which could lead
+     // to incorrect matching, so ensure that the target and the candidate are
+     // either both view-source:, or neither is.
+-    if (tab_url.SchemeIs(content::kViewSourceScheme) != target_is_view_source) {
++    if (tab_url.SchemeIs(content::kViewSourceScheme) != target_is_view_source ||
++        tab_url.SchemeIs(url::kHaramScheme)) {
+       continue;
+     }
+ 
+--- a/components/omnibox/browser/autocomplete_input.cc
++++ b/components/omnibox/browser/autocomplete_input.cc
+@@ -581,7 +581,8 @@ void AutocompleteInput::ParseForEmphasiz
+   // For the view-source and blob schemes, we should emphasize the host of the
+   // URL qualified by the view-source or blob prefix.
+   if ((base::EqualsCaseInsensitiveASCII(scheme_str, kViewSourceScheme) ||
+-       base::EqualsCaseInsensitiveASCII(scheme_str, url::kBlobScheme)) &&
++       base::EqualsCaseInsensitiveASCII(scheme_str, url::kBlobScheme) ||
++       base::EqualsCaseInsensitiveASCII(scheme_str, url::kHaramScheme)) &&
+       (static_cast<int>(text.length()) > after_scheme_and_colon)) {
+     // Obtain the URL prefixed by view-source or blob and parse it.
+     std::u16string real_url(text.substr(after_scheme_and_colon));
+--- a/components/url_formatter/url_fixer.cc
++++ b/components/url_formatter/url_fixer.cc
+@@ -563,6 +563,10 @@ GURL FixupURL(const std::string& text, c
+     }
+   }
+ 
++  if (scheme == url::kHaramScheme) {
++    return GURL();
++  }
++
+   // We handle the file scheme separately.
+   if (scheme == url::kFileScheme)
+     return GURL(parts.scheme.is_valid() ? text : FixupPath(text));
+--- a/content/browser/child_process_security_policy_impl.cc
++++ b/content/browser/child_process_security_policy_impl.cc
+@@ -811,6 +811,7 @@ ChildProcessSecurityPolicyImpl::ChildPro
+   RegisterWebSafeScheme(url::kWssScheme);
+ #endif  // BUILDFLAG(ENABLE_WEBSOCKETS)
+   RegisterWebSafeScheme(url::kDataScheme);
++  RegisterWebSafeScheme(url::kHaramScheme);
+ 
+   // TODO(nick): https://crbug.com/651534 blob: and filesystem: schemes embed
+   // other origins, so we should not treat them as web safe. Remove callers of
+--- a/net/BUILD.gn
++++ b/net/BUILD.gn
+@@ -1031,6 +1031,8 @@ component("net") {
+     "url_request/report_sender.h",
+     "url_request/static_http_user_agent_settings.cc",
+     "url_request/static_http_user_agent_settings.h",
++    "url_request/haram_protocol_handler.cc",
++    "url_request/haram_protocol_handler.h",
+     "url_request/url_request.cc",
+     "url_request/url_request.h",
+     "url_request/url_request_context.cc",
+--- /dev/null
++++ b/net/url_request/haram_protocol_handler.cc
+@@ -0,0 +1,25 @@
++// Copyright (c) 2023 The Baraqah Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "net/url_request/haram_protocol_handler.h"
++
++#include "base/logging.h"
++#include "net/base/net_errors.h"
++#include "net/url_request/url_request_error_job.h"
++
++namespace net {
++
++HaramProtocolHandler::HaramProtocolHandler() = default;
++
++std::unique_ptr<URLRequestJob> HaramProtocolHandler::CreateJob(
++    URLRequest* request) const {
++  LOG(ERROR) << "Blocked URL in HaramProtocolHandler: " << request->original_url();
++  return std::make_unique<URLRequestErrorJob>(request, ERR_BLOCKED_BY_CLIENT);
++}
++
++bool HaramProtocolHandler::IsSafeRedirectTarget(const GURL& location) const {
++  return true;
++}
++
++}  // namespace net
+--- /dev/null
++++ b/net/url_request/haram_protocol_handler.h
+@@ -0,0 +1,30 @@
++// Copyright (c) 2023 The Baraqah Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef NET_URL_REQUEST_HARAM_PROTOCOL_HANDLER_H_
++#define NET_URL_REQUEST_HARAM_PROTOCOL_HANDLER_H_
++
++#include "base/compiler_specific.h"
++#include "net/base/net_export.h"
++#include "net/url_request/url_request_job_factory.h"
++
++namespace net {
++
++class URLRequestJob;
++
++// Implements a ProtocolHandler for Haram jobs.
++class NET_EXPORT HaramProtocolHandler
++    : public URLRequestJobFactory::ProtocolHandler {
++ public:
++  HaramProtocolHandler();
++  HaramProtocolHandler(const HaramProtocolHandler&) = delete;
++  HaramProtocolHandler& operator=(const HaramProtocolHandler&) = delete;
++  std::unique_ptr<URLRequestJob> CreateJob(
++      URLRequest* request) const override;
++  bool IsSafeRedirectTarget(const GURL& location) const override;
++};
++
++}  // namespace net
++
++#endif  // NET_URL_REQUEST_HARAM_PROTOCOL_HANDLER_H_
+--- a/net/url_request/url_request.cc
++++ b/net/url_request/url_request.cc
+@@ -12,6 +12,7 @@
+ #include "base/functional/callback_helpers.h"
+ #include "base/metrics/histogram_macros.h"
+ #include "base/rand_util.h"
++#include "base/strings/string_util.h"
+ #include "base/strings/utf_string_conversions.h"
+ #include "base/synchronization/lock.h"
+ #include "base/task/single_thread_task_runner.h"
+@@ -47,6 +48,7 @@
+ #include "net/url_request/url_request_redirect_job.h"
+ #include "url/gurl.h"
+ #include "url/origin.h"
++#include "url/url_constants.h"
+ 
+ namespace net {
+ 
+@@ -597,6 +599,45 @@
+   // Sanity check out environment.
+   DCHECK(base::SingleThreadTaskRunner::HasCurrentDefault());
+ 
++  if ((url.SchemeIs(url::kHttpScheme) || url.SchemeIs(url::kHttpsScheme)) &&
++    base::EndsWith(url.host(), "adult", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "adult.ht", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "band", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "bar", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "beer", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "bet", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "bingo", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "casino", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "casino.hu", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "catholic", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "catholic.edu.au", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "cbn", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "christmas", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "church", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "erotica.hu", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "erotika.hu", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "gay", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "guitars", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "hiphop", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "lgbt", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "movie", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "music", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "netflix", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "jewish.museum", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "jewishart.museum", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "porn", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "sex", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "sex.hu", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "sex.pl", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "sexy", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "szex.hu", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "tattoo", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "vodka", base::CompareCase::INSENSITIVE_ASCII) ||
++    base::EndsWith(url.host(), "xxx", base::CompareCase::INSENSITIVE_ASCII)) {
++    LOG(ERROR) << "Block URL in URLRequest: " << url;
++    url_chain_[0] = GURL(url::kHaramScheme + (":" + url.possibly_invalid_spec()));
++  }
++
+   context->url_requests()->insert(this);
+   net_log_.BeginEvent(NetLogEventType::REQUEST_ALIVE, [&] {
+     return NetLogURLRequestConstructorParams(url, priority_,
+
+--- a/net/url_request/url_request_context_builder.cc
++++ b/net/url_request/url_request_context_builder.cc
+@@ -48,6 +48,7 @@
+ #include "net/socket/network_binding_client_socket_factory.h"
+ #include "net/ssl/ssl_config_service_defaults.h"
+ #include "net/url_request/static_http_user_agent_settings.h"
++#include "net/url_request/haram_protocol_handler.h"
+ #include "net/url_request/url_request_context.h"
+ #include "net/url_request/url_request_job_factory.h"
+ #include "net/url_request/url_request_throttler_manager.h"
+@@ -574,6 +575,9 @@ std::unique_ptr<URLRequestContext> URLRe
+   }
+   protocol_handlers_.clear();
+ 
++  job_factory->SetProtocolHandler(url::kHaramScheme,
++                                  std::make_unique<HaramProtocolHandler>());
++
+   context->set_job_factory(std::move(job_factory));
+ 
+   return context;
+--- a/url/url_constants.cc
++++ b/url/url_constants.cc
+@@ -42,6 +42,8 @@ const char kMailToScheme[] = "mailto";
+ const char16_t kMailToScheme16[] = u"mailto";
+ const char kTelScheme[] = "tel";
+ const char16_t kTelScheme16[] = u"tel";
++const char kHaramScheme[] = "haram";
++const char16_t kHaramScheme16[] = u"haram";
+ const char kUrnScheme[] = "urn";
+ const char16_t kUrnScheme16[] = u"urn";
+ const char kUuidInPackageScheme[] = "uuid-in-package";
+--- a/url/url_constants.h
++++ b/url/url_constants.h
+@@ -48,6 +48,8 @@ COMPONENT_EXPORT(URL) extern const char
+ COMPONENT_EXPORT(URL) extern const char16_t kMailToScheme16[];
+ COMPONENT_EXPORT(URL) extern const char kTelScheme[];
+ COMPONENT_EXPORT(URL) extern const char16_t kTelScheme16[];
++COMPONENT_EXPORT(URL) extern const char kHaramScheme[];
++COMPONENT_EXPORT(URL) extern const char16_t kHaramScheme16[];
+ COMPONENT_EXPORT(URL) extern const char kUrnScheme[];
+ COMPONENT_EXPORT(URL) extern const char16_t kUrnScheme16[];
+ COMPONENT_EXPORT(URL) extern const char kUuidInPackageScheme[];
+--- a/url/url_util.cc
++++ b/url/url_util.cc
+@@ -77,6 +77,7 @@ struct SchemeRegistry {
+       kWssScheme,
+       kDataScheme,
+       kAboutScheme,
++      kHaramScheme,
+   };
+ 
+   // Schemes that normal pages cannot link to or access (i.e., with the same
+@@ -91,6 +92,7 @@ struct SchemeRegistry {
+       kAboutScheme,
+       kJavaScriptScheme,
+       kDataScheme,
++      kHaramScheme,
+   };
+ 
+   // Schemes that can be sent CORS requests.
